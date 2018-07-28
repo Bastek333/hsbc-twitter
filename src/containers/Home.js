@@ -19,7 +19,8 @@ export default class Home extends Component {
     this.state = {
       isLoading: true,
       posts: [],
-      searchKeyword: ''
+      searchKeyword: '',
+      columns: 3
     };
   }
 
@@ -36,6 +37,21 @@ export default class Home extends Component {
     }
 
     this.setState({ isLoading: false });
+    
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this))
+  }
+
+  updateDimensions() {
+    if(window.innerWidth < 768) {
+      this.setState({ columns: 1 });
+    };
+    if(window.innerWidth >= 768 && window.innerWidth <= 992) {
+      this.setState({ columns: 2 });
+    };
+    if(window.innerWidth > 992) {
+      this.setState({ columns: 3 });
+    };
   }
 
   posts() {
@@ -102,8 +118,8 @@ export default class Home extends Component {
   divideArray(arr) {
     const groups = [];
     const listLength = this.renderPostsList(this.state.posts).length;
-    let chunkSize = listLength / 3
-    const chunkSizeModulo = listLength % 3
+    let chunkSize = listLength / this.state.columns;
+    const chunkSizeModulo = listLength % this.state.columns;
     chunkSize = chunkSize + chunkSizeModulo;
 
     for (let i = 0; i < arr.length; i += chunkSize) {
@@ -132,21 +148,27 @@ export default class Home extends Component {
         <Row className="posts">
           {this.renderPostsList(this.state.posts).length ?  
           <div>
-            <Col xs={12} sm = {6} md={4} >    
-              <ListGroup>
-                {!this.state.isLoading && listForGridOne}          
-              </ListGroup>
-            </Col>
-            <Col xs={12} sm = {6} md={4} >    
-              <ListGroup>
-                {!this.state.isLoading && listForGridTwo}          
-              </ListGroup>
-            </Col>
-            <Col xs={12} sm = {6} md={4} >    
-              <ListGroup>
-                {!this.state.isLoading && listForGridThree}          
-              </ListGroup>
-            </Col>
+            { listForGridOne ?
+              <Col xs={12} sm = {6} md={4} >    
+                <ListGroup>
+                  {!this.state.isLoading && listForGridOne}          
+                </ListGroup>
+              </Col> : null 
+            }
+            { listForGridTwo ?
+              <Col xs={12} sm = {6} md={4} >    
+                <ListGroup>
+                  {!this.state.isLoading && listForGridTwo}          
+                </ListGroup>
+              </Col> : null
+            }
+            { listForGridThree ?
+              <Col xs={12} sm = {6} md={4} >    
+                <ListGroup>
+                  {!this.state.isLoading && listForGridThree}          
+                </ListGroup>
+              </Col> : null
+            }
           </div>
           : "No posts found"}
         </Row>
@@ -168,6 +190,10 @@ export default class Home extends Component {
         </FormGroup>
       </div>
     )
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   render() {
