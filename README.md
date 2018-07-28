@@ -12,7 +12,6 @@ No preprocessor .less used as node-less-chokidar is soo slow on development - an
 
 Password do not accept special characters only as requested exactly 8 characters, at least one small letter, at least one capital letter, at least one number.
 
-There is some localStore issue - not sure if it's chrome related - functionality implemented and should work - but needs more investigation. (hope that for test challange is OK)
 
 
 Some polishing is necessary but hope is just for challange - can explain more in person.

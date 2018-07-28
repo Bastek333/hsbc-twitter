@@ -33,8 +33,8 @@ export default class Login extends Component {
     try {
       await true;
       this.props.userHasAuthenticated(true);
-      localStorage.setItem('name', this.state.username);
-      localStorage.setItem('password', this.state.password);
+      sessionStorage.setItem('name', this.state.username);
+      sessionStorage.setItem('password', this.state.password);
     } catch (e) {
       alert(e.message);
       this.setState({ isLoading: false });
