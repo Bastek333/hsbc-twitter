@@ -58,7 +58,7 @@ export default class Home extends Component {
     await true;
     sessionStorage.clear();
 
-    this.userHasAuthenticated(false);
+    this.props.userHasAuthenticated(false);
 
     this.props.history.push("/login");
   }
@@ -89,7 +89,7 @@ export default class Home extends Component {
     return (
       <div className="lander">
         <h1>HSBC</h1>
-        <p>developer application app</p>
+        <p>Twitter</p>
         <div>
           <Link to="/login" className="btn btn-info btn-lg">
             Login
