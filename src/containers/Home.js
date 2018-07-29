@@ -12,6 +12,8 @@ import {
 } from "react-bootstrap";
 import "./Home.css";
 
+import postsFetch from '../components/PostsFetch';
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +32,7 @@ export default class Home extends Component {
     }
 
     try {
-      const posts = await this.posts();
+      const posts = await postsFetch();
       this.setState({ posts });
     } catch (e) {
       alert(e);
@@ -52,11 +54,6 @@ export default class Home extends Component {
     if(window.innerWidth > 992) {
       this.setState({ columns: 3 });
     };
-  }
-
-  posts() {
-    return fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
   }
 
   handlePostClick = event => {
@@ -82,7 +79,7 @@ export default class Home extends Component {
   renderPostsList(posts) {
     const listOfPosts = posts.map(
       (post) =>
-        ((post.body && post.body.includes(this.state.searchKeyword) || post.title && post.title.includes(this.state.searchKeyword)))
+        ((post.body && post.body.includes(this.state.searchKeyword)) || (post.title && post.title.includes(this.state.searchKeyword)))
           ? <ListGroupItem
               key={post.id}
               href={`/post/${post.id}`}
